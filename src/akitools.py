@@ -1,10 +1,13 @@
 # Copyright (c) 2019 aki
 
 
-__all__ = ['version', 'ftime', 'ftimestamp', 'header', 'send_mail', 'log_write']
+__all__ = ['version', 'ftime', 'ftimestamp', 'header', 'HEADER', 'send_mail', 'log_write']
 
 
-version = '0.0.15'
+version = '0.0.16'
+
+
+HEADER = header()
 
 
 def ftime(f: int = None, t: int = None, c: str = None) -> str:
