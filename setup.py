@@ -1,12 +1,12 @@
 import setuptools
-from src import akitools
+from src.akitools import __version__
 
-with open("README.md", "r") as fh:
+with open("README.md", "r", encoding='utf-8') as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="akitools",
-    version=akitools.version,
+    version=__version__,
     author="aki",
     author_email="heti@qq.com",
     long_description=long_description,
@@ -20,4 +20,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
+    install_requires = [
+        'python-dateutil>=2.8.0'
+    ]
 )

@@ -1,12 +1,18 @@
 # Copyright (c) 2019 aki
+"""
+HEADER      常量  浏览器头部信息
+ftime       函数  将时间戳转换成日期/时间字符串
+ctime       函数  将日期/时间字符串转换成时间戳
+send_mail   函数  发送邮件
+log_write   函数  日志写入
+"""
+__all__ = ['HEADER', 'ftime', 'ctime', 'send_mail', 'log_write']
 
 
-__all__ = ['version', 'header', 'ftime', 'ctime', 'send_mail', 'log_write']
+__version__ = '0.0.19'
 
 
-version = '0.0.17'
-
-header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
+HEADER = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
 
 
 def ftime(f: int = None, t: int = None, c: str = None) -> str:
@@ -45,38 +51,18 @@ def ftime(f: int = None, t: int = None, c: str = None) -> str:
     return time.strftime(KNOWN_FORMATS.get(f, KNOWN_FORMATS[1]), time.localtime(t))
 
 
-def ctime(d: str = None, f: int = None, c: str = None) -> int:
+def ctime(d: str = None) -> int:
     """
     将日期/时间字符串转换成时间戳
 
-        d:  日期/时间               # 20140320
-        f:  已知格式                # 为空则默认为 1
-        c:  自定义格式              # 参考 '%Y%m%d' 格式
-        如果参数f 与 c 都非空，则优先选择参数c 自定义的时间格式
-            f = 1   =  '%Y%m%d'
-            f = 2   =  '%Y.%m.%d'
-            f = 3   =  '%Y-%m-%d'
-            f = 4   =  '%Y/%m/%d'
-            f = 5   =  '%Y%m%d %H%M%S'
-            f = 6   =  '%Y.%m.%d %H:%M:%S'
-            f = 7   =  '%Y-%m-%d %H:%M:%S'
-            f = 8   =  '%Y/%m/%d %H:%M:%S'
+        d:  日期/时间字符串               # 20140320
     """
-    import time
 
-    KNOWN_FORMATS = {
-        1: '%Y%m%d',
-        2: '%Y.%m.%d',
-        3: '%Y-%m-%d',
-        4: '%Y/%m/%d',
-        5: '%Y%m%d %H%M%S',
-        6: '%Y.%m.%d %H:%M:%S',
-        7: '%Y-%m-%d %H:%M:%S',
-        8: '%Y/%m/%d %H:%M:%S',
-    }
-    f = c if c else KNOWN_FORMATS.get(f, KNOWN_FORMATS[1])
+    import time
+    from dateutil.parser import parse
+
     if d:
-        return int(time.mktime(time.strptime(d, f)))
+        return int(parse(d).timestamp())
     return int(time.time())
 
 
@@ -102,7 +88,7 @@ def send_mail(recipient: list, subject: str, text: str):
 
 def log_write(filename: str, logs: str, filemode: str = 'a', level: int = 30, disable: bool = False):
     """
-    日志记录
+    日志写入
         filename        # 日志文件名
         logs            # 日志内容
         filemode        # 写入模式      a w
