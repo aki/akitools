@@ -9,18 +9,17 @@ log_write   函数  日志写入
 __all__ = ['HEADER', 'ftime', 'ctime', 'send_mail', 'log_write']
 
 
-__version__ = '0.0.19'
+__version__ = '0.0.20'
 
 
 HEADER = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
 
 
-def ftime(f: int = None, t: int = None, c: str = None) -> str:
+def ftime(t: int = None, f: int = None, c: str = None) -> str:
     """
     将时间戳转换成日期/时间字符串
-
-        f: 已知的格式               # 为空则默认为 1 ,返回格式为: 20140320
         t: 时间戳数字               # 为空则默认为 当前时间的时间戳
+        f: 已知的格式               # 为空则默认为 1 ,返回格式为: 20140320
         c: 自定义格式               # 参考 '%Y%m%d' 格式
         如果参数f 与 c 都非空，则优先选择参数c 自定义的时间格式
             f = 1   return  20140320
@@ -55,7 +54,7 @@ def ctime(d: str = None) -> int:
     """
     将日期/时间字符串转换成时间戳
 
-        d:  日期/时间字符串               # 20140320
+        d:  日期/时间字符串             # 20140320
     """
 
     import time
