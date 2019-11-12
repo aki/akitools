@@ -1,47 +1,39 @@
 # Copyright (c) 2019 aki
-"""
-HEADER      常量  浏览器头部信息
-ftime       函数  将时间戳转换成日期/时间字符串
-ctime       函数  将日期/时间字符串转换成时间戳
-send_mail   函数  发送邮件
-log_write   函数  日志写入
-"""
+
+
 __all__ = ['HEADER', 'ftime', 'ctime', 'send_mail', 'log_write']
 
-
-__version__ = '0.0.20'
+__version__ = '0.0.21'
 
 
 HEADER = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
 
 
-def ftime(t: int = None, f: int = None, c: str = None) -> str:
+def ftime(t: int=None, f: int=None, c: str=None) -> str:
     """
     将时间戳转换成日期/时间字符串
-        t: 时间戳数字               # 为空则默认为 当前时间的时间戳
-        f: 已知的格式               # 为空则默认为 1 ,返回格式为: 20140320
-        c: 自定义格式               # 参考 '%Y%m%d' 格式
-        如果参数f 与 c 都非空，则优先选择参数c 自定义的时间格式
-            f = 1   return  20140320
-            f = 2   return  2014.03.20
-            f = 3   return  2014-03-20
-            f = 4   return  2014/03/20
-            f = 5   return  20140320 102824
-            f = 6   return  2014.03.20 10:28:24
-            f = 7   return  2014-03-20 10:28:24
-            f = 8   return  2014/03/20 10:28:24
+        参数：
+            t: 时间戳数字               # 默认值=当前时间的时间戳
+            f: 已知的格式               # 默认值=1(可选1-5)
+            c: 自定义格式               # 参考'%Y%m%d'格式,参数f与c为二选一，格式优先参数c的时间格式
+
+            以下是提供常用的格式(参数f):
+            f=1 20140320
+            f=2 2014-03-20
+            f=3 2014/03/20
+            f=4 2014-03-20 10:28:24
+            f=5 2014/03/20 10:28:24
+        返回：
+            return str
     """
     import time
 
     KNOWN_FORMATS = {
         1: '%Y%m%d',                    # 20140320
-        2: '%Y.%m.%d',                  # 2014.03.20
-        3: '%Y-%m-%d',                  # 2014-03-20
-        4: '%Y/%m/%d',                  # 2014/03/20
-        5: '%Y%m%d %H%M%S',             # 20140320 102824
-        6: '%Y.%m.%d %H:%M:%S',         # 2014.03.20 10:28:24
-        7: '%Y-%m-%d %H:%M:%S',         # 2014-03-20 10:28:24
-        8: '%Y/%m/%d %H:%M:%S',         # 2014/03/20 10:28:24
+        2: '%Y-%m-%d',                  # 2014-03-20
+        3: '%Y/%m/%d',                  # 2014/03/20
+        4: '%Y-%m-%d %H:%M:%S',         # 2014-03-20 10:28:24
+        5: '%Y/%m/%d %H:%M:%S',         # 2014/03/20 10:28:24
     }
 
     t = t if t else time.time()
@@ -50,13 +42,14 @@ def ftime(t: int = None, f: int = None, c: str = None) -> str:
     return time.strftime(KNOWN_FORMATS.get(f, KNOWN_FORMATS[1]), time.localtime(t))
 
 
-def ctime(d: str = None) -> int:
+def ctime(d: str=None) -> int:
     """
     将日期/时间字符串转换成时间戳
-
-        d:  日期/时间字符串             # 20140320
+        参数：
+            d:  日期/时间字符串         # 值为空返回当前时间的时间戳
+        返回：
+            return int            
     """
-
     import time
     from dateutil.parser import parse
 

@@ -10,15 +10,16 @@ pip install akitools
 
 ```python
 >>> from akitools import ftime
-
 >>> ftime()
 '20191109'
-
->>> ftime(7)
+>>> ftime(f=4)
 '2019-11-09 13:12:04'
-
 >>> ftime(t=1571940315)
 '20191025'
+
+>>> from akitools import ctime
+>>> ctime('2017-01-01')
+1483200000
 ```
 
 
