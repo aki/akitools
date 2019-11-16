@@ -21,6 +21,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires = [
-        'python-dateutil>=2.8.0'
+        'python-dateutil>=2.8.0',
+        'requests>=2.22.0'
     ]
 )

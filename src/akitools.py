@@ -1,15 +1,16 @@
 # Copyright (c) 2019 aki
 
 
-__all__ = ['HEADER', 'ftime', 'ctime', 'send_mail', 'log_write']
+__all__ = ['HEADER', 'ftime', 'ctime', 'send_mail', 'log_write', 'weather']
 
-__version__ = '0.0.21'
-
-
-HEADER = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
+__version__ = '0.0.22'
 
 
-def ftime(t: int=None, f: int=None, c: str=None) -> str:
+HEADER = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
+
+
+def ftime(t: int = None, f: int = None, c: str = None) -> str:
     """
     将时间戳转换成日期/时间字符串
         参数：
@@ -42,7 +43,7 @@ def ftime(t: int=None, f: int=None, c: str=None) -> str:
     return time.strftime(KNOWN_FORMATS.get(f, KNOWN_FORMATS[1]), time.localtime(t))
 
 
-def ctime(d: str=None) -> int:
+def ctime(d: str = None) -> int:
     """
     将日期/时间字符串转换成时间戳
         参数：
@@ -97,3 +98,81 @@ def log_write(filename: str, logs: str, filemode: str = 'a', level: int = 30, di
                         )
     logging.disable = disable
     logging.warning(logs)
+
+
+def weather(city: str = None, version: int = 1):
+    """
+    获取实时气象情况
+
+        参数：
+            city        # 城市名称  默认值为当前IP所在的城市
+            version     # 数据版本  默认版本为1
+        返回：
+            return      # dict
+    """
+    try:
+        import requests
+        import re
+        import json
+        from urllib import parse
+
+        def request(url):
+            """url请求"""
+            header = HEADER
+            header['Referer'] = url
+            response = requests.get(url, headers=header, timeout=5)
+            return response
+
+        def default_city():
+            """默认城市"""
+            url = 'http://wgeo.weather.com.cn/ip/'
+            rst = request(url)
+            re_text = r'var id="(.*?)";var'
+            re_result = re.findall(re_text, rst.text)
+            return re_result[0]
+
+        def search_cityname(cityname):
+            """搜索城市代号"""
+            ref = []
+            cityname = parse.quote(cityname)
+            url = 'http://toy1.weather.com.cn/search?cityname={}'
+            url = url.format(cityname)
+            rst = request(url)
+            rst = re.sub(r"[()]", '', rst.text)
+            rst = json.loads(rst)
+            for i in rst:
+                text = i['ref'].split('~')
+                ref.append([text[0], text[2], text[-1]])
+            return ref
+
+        def _weather(city, version):
+            """获取气象信息"""
+            city = city if city else default_city()
+            if not isinstance(city, int):
+                city = search_cityname(city)[0][0]
+
+            if version == 1:
+                url = 'http://d1.weather.com.cn/dingzhi/{}.html'
+                re_text = re.compile(r'weatherinfo":(.*?)};var')
+            else:
+                url = 'http://d1.weather.com.cn/sk_2d/{}.html'
+                re_text = re.compile(r'= (.*?})')
+
+            url = url.format(city)
+            rst = request(url)
+            rst = rst.text.encode(rst.encoding).decode(rst.apparent_encoding)
+            rst = re.sub(r"[℃]", '', rst)
+            re_result = re.findall(re_text, rst)
+            resrstult = json.loads(re_result[0])
+            resrstult['timestamp'] = ctime()
+            return resrstult
+
+        result = {}
+        result['status'] = 'succeed'
+        result['data'] = _weather(city, version)
+        return result
+
+    except:
+        result['status'] = 'fail'
+        result['data'] = None
+        return result
