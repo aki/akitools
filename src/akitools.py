@@ -1,7 +1,7 @@
 # Copyright (c) 2019 aki
 
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 __all__ = ['HEADER', 'ftime', 'ctime', 'mail', 'logs', 'weather', 'ip']
 
