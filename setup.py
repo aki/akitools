@@ -13,15 +13,14 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     description="akitools",
     url="https://github.com/aki/akitools",
-    py_modules  = ['akitools'],
-    package_dir = {'': 'src'},
-    license = 'BSD',
+    py_modules=['akitools'],
+    package_dir={'': 'src'},
+    license='BSD',
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    install_requires = [
-        'python-dateutil>=2.8.0',
-        'requests>=2.22.0'
+    install_requires=[
+        'requests',
     ]
 )

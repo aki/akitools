@@ -12,10 +12,6 @@ pip install akitools
 >>> from akitools import ftime
 >>> ftime()
 '20191109'
->>> ftime(f=4)
-'2019-11-09 13:12:04'
->>> ftime(t=1571940315)
-'20191025'
 
 >>> from akitools import ctime
 >>> ctime('2017-01-01')
@@ -31,5 +27,3 @@ pip install akitools
 |logs               |函数   |None   |日志写入
 |weather            |函数   |dict   |天气气象信息
 |ip                 |函数   |dict   |IP地址信息
-|proxy              |函数   |dict   |IP代理信息
-|cryptocurrencies   |函数   |dict   |牌价
