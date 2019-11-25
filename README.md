@@ -1,4 +1,4 @@
-[![PyPi Version](https://img.shields.io/pypi/v/akitools)](https://pypi.org/project/akitools/) [![License](https://img.shields.io/pypi/l/akitools)](https://pypi.org/project/akitools/)
+[![PyPi Version](https://img.shields.io/pypi/v/akitools)](https://pypi.org/project/akitools/) [![License](https://img.shields.io/pypi/l/akitools)](https://pypi.org/project/akitools/) ![PyPI - Downloads](https://img.shields.io/pypi/dm/akitools)
 
  ##### Install
 
