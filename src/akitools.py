@@ -1,7 +1,7 @@
 # Copyright (c) 2019 aki
 
 
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 __all__ = ['HEADER', 'ftime', 'ctime', 'mail', 'logs', 'weather', 'ip']
 
@@ -218,3 +218,18 @@ def ip(ip_address: str = 'myip') -> dict:
         result['data'] = None
     finally:
         return result
+
+
+def split_list(ls, num):
+    """将列表分割成指定数量列表的多列表
+
+    :param ls 源列表
+    :param num 单个列表数据的数量
+    :return list
+    """
+
+    from collections import Iterable
+    if isinstance(ls, Iterable) and isinstance(num, int) and num >= 1:
+        result = [ls[i:i + num] for i in range(0, len(ls), num)]
+        return result
+    return None
