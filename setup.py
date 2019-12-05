@@ -1,8 +1,9 @@
 import setuptools
-from src.akitools import __version__
+from src.__init__ import __version__
 
 with open("README.md", "r", encoding='utf-8') as fh:
     long_description = fh.read()
+
 
 setuptools.setup(
     name="akitools",
@@ -13,8 +14,8 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     description="akitools",
     url="https://github.com/aki/akitools",
-    py_modules=['akitools'],
-    package_dir={'': 'src'},
+    packages=['akitools'],
+    package_dir={'akitools': 'src'},
     license='BSD',
     classifiers=[
         "Programming Language :: Python :: 3",
