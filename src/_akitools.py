@@ -1,13 +1,8 @@
 
-__version__ = '0.1.6'
-
-
 # 浏览器 User Agent
 HEADER = {'Accept': '*/*',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'Accept-Language': 'zh-CN,zh;q=0.9',
-          'Connection': 'keep-alive',
           'Referer': None,
+          'Connection': 'keep-alive',
           'User-Agent': 'Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0',
           }
 
@@ -138,7 +133,7 @@ def weather(city: str = None, version: int = 1) -> dict:
     """获取实时气象情况 数据提供 weather.com.cn
 
     :param city: 城市名称
-    :param version: 版本 (1 or 2)
+    :param version: 版本 (1 2 3)
     :return dict
     """
     import requests
@@ -161,7 +156,7 @@ def weather(city: str = None, version: int = 1) -> dict:
             """默认城市"""
             url = 'http://wgeo.weather.com.cn/ip/'
             rst = request(url)
-            re_text = r'var id="(.*?)";var'
+            re_text = r'id="(\d+)'
             re_result = re.findall(re_text, rst.text)
             return re_result[0]
 
@@ -185,19 +180,27 @@ def weather(city: str = None, version: int = 1) -> dict:
             if not isinstance(c, int):
                 c = search_city_name(c)[0][0]
 
+            v = v if 1 <= v <= 3 else 1
+
             if v == 1:
                 url = 'http://d1.weather.com.cn/dingzhi/{}.html'
-                re_text = re.compile(r'weatherinfo":(.*?)};var')
-            else:
+                re_text = re.compile(r':({.*?})')
+            elif v == 2:
                 url = 'http://d1.weather.com.cn/sk_2d/{}.html'
-                re_text = re.compile(r'= (.*?})')
+                re_text = re.compile(r'({.*?})')
+            elif v == 3:
+                url = 'http://d1.weather.com.cn/weather_index/{}.html'
+                re_text = re.compile(r'=*({.*?});')
 
             url = url.format(c)
             rst = request(url)
             rst = rst.text.encode(rst.encoding).decode(rst.apparent_encoding)
-            rst = re.sub(r"[℃]", '', rst)
+            rst = re.sub(r"[℃]", 'C', rst)
             re_result = re.findall(re_text, rst)
-            rst = json.loads(re_result[0])
+            if version == 3:
+                rst = {i: d for i, d in enumerate(re_result)}
+            else:
+                rst = json.loads(re_result[0])
             rst['timestamp'] = ctime()
             return rst
 

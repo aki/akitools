@@ -10,6 +10,6 @@ weather:        获取实时气象情况
 ipInfo:         获取ip地址信息
 """
 
-__version__ = '0.2.0'
+__version__ = '0.2.2'
 
 from ._akitools import HEADER, ftime, ctime, filenameSub, splitIterable, mail, logs, weather, ipInfo
