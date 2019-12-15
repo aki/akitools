@@ -181,6 +181,8 @@ def weather(city: str = None, version: int = 1) -> dict:
                 c = search_city_name(c)[0][0]
 
             v = v if 1 <= v <= 3 else 1
+            url = None
+            re_text = None
 
             if v == 1:
                 url = 'http://d1.weather.com.cn/dingzhi/{}.html'
@@ -195,7 +197,7 @@ def weather(city: str = None, version: int = 1) -> dict:
             url = url.format(c)
             rst = request(url)
             rst = rst.text.encode(rst.encoding).decode(rst.apparent_encoding)
-            rst = re.sub(r"[℃]", 'C', rst)
+            rst = re.sub(r"[℃]", '', rst)
             re_result = re.findall(re_text, rst)
             if version == 3:
                 rst = {i: d for i, d in enumerate(re_result)}
