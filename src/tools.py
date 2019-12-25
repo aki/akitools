@@ -1,10 +1,6 @@
 
 # 浏览器 User Agent
-HEADER = {'Accept': '*/*',
-          'Referer': None,
-          'Connection': 'keep-alive',
-          'User-Agent': 'Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0',
-          }
+HEADER = {'Accept': '*/*', 'User-Agent': 'Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0'}
 
 
 def ftime(t: int = None, f: int = None, c: str = None) -> str:
@@ -27,7 +23,7 @@ def ftime(t: int = None, f: int = None, c: str = None) -> str:
     """
     import time
 
-    KNOWN_FORMATS = {
+    known_formats = {
         1: '%Y%m%d',  # 20140320
         2: '%Y-%m-%d',  # 2014-03-20
         3: '%Y/%m/%d',  # 2014/03/20
@@ -36,9 +32,8 @@ def ftime(t: int = None, f: int = None, c: str = None) -> str:
         6: '%Y%m%d%H%M%S',  # 20140320102824
     }
 
-    t = t if t else time.time()
-    if not c:
-        c = KNOWN_FORMATS.get(f, KNOWN_FORMATS[1])
+    t = t or time.time()
+    c = c or known_formats.get(f, known_formats[1])
     return time.strftime(c, time.localtime(t))
 
 
@@ -56,7 +51,7 @@ def ctime(d: str = None) -> int:
     return int(time.time())
 
 
-def filenameSub(f: str, s: str = "") -> str:
+def filename_norm(f: str, s: str = "") -> str:
     """替换不符合文件名的字符
 
     :param f: 文件名字符串
@@ -71,7 +66,7 @@ def filenameSub(f: str, s: str = "") -> str:
     return f
 
 
-def splitIterable(ls: list, n: int):
+def split_iterable(ls: list, n: int):
     """将可迭代的数据分割成多个列表
 
     :param ls: 可迭代的带下标的数据 (list, str)
@@ -215,7 +210,7 @@ def weather(city: str = None, version: int = 1) -> dict:
         return result
 
 
-def ipInfo(ip: str = 'myip') -> dict:
+def ip_info(ip: str = 'myip') -> dict:
     """获取ip地址信息,数据提供方为 ip.taobao.com
 
     :param ip: ip地址
