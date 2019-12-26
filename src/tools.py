@@ -51,6 +51,59 @@ def ctime(d: str = None) -> int:
     return int(time.time())
 
 
+def random_chinese_character(n: int = 3, surname: bool = True) -> str:
+    """随机中文字符
+    :param n: 数量
+    :param surname: 姓氏
+    :return str
+    """
+    from random import randint, choice
+
+    """
+    01李 02王 03张 04刘 05陈 06杨 07赵 08黄 09周 10吴
+    11徐 12孙 13胡 14朱 15高 16林 17何 18郭 19马 20罗
+    21梁 22宋 23郑 24谢 25韩 26唐 27冯 28于 29董 30萧
+    31程 32曹 33袁 34邓 35许 36傅 37沈 38曾 39彭 40吕
+    41苏 42卢 43蒋 44蔡 45贾 46丁 47魏 48薛 49叶 50阎
+    51余 52潘 53杜 54戴 55夏 56钟 57汪 58田 59任 60姜
+    61范 62方 63石 64姚 65谭 66廖 67邹 68熊 69金 70陆
+    71郝 72孔 73白 74崔 75康 76毛 77邱 78秦 79江 80史
+    81顾 82侯 83邵 84孟 85龙 86万 87段 88漕 89钱 90汤
+    91尹 92黎 93易 94常 95武 96乔 97贺 98赖 99龚 100文
+    """
+    surnames = [0x674E, 0x738B, 0x5F20, 0x5218, 0x9648, 0x6768, 0x8D75, 0x9EC4, 0x5468, 0x5434,
+                0x5F90, 0x5B59, 0x80E1, 0x6731, 0x9AD8, 0x6797, 0x4F55, 0x90ED, 0x9A6C, 0x7F57,
+                0x6881, 0x5B8B, 0x90D1, 0x8C22, 0x97E9, 0x5510, 0x51AF, 0x51AF, 0x8463, 0x8427,
+                0x7A0B, 0x66F9, 0x8881, 0x9093, 0x8BB8, 0x5085, 0x6C88, 0x66FE, 0x5F6D, 0x5415,
+                0x82CF, 0x5362, 0x848B, 0x8521, 0x8D3E, 0x4E01, 0x9B4F, 0x859B, 0x53F6, 0x960E,
+                0x4F59, 0x6F58, 0x675C, 0x6234, 0x590F, 0x949F, 0x6C6A, 0x7530, 0x4EFB, 0x59DC,
+                0x8303, 0x65B9, 0x77F3, 0x59DA, 0x8C2D, 0x5ED6, 0x90B9, 0x718A, 0x91D1, 0x9646,
+                0x90DD, 0x5B54, 0x767D, 0x5D14, 0x5EB7, 0x6BDB, 0x90B1, 0x79E6, 0x6C5F, 0x53F2,
+                0x987E, 0x4FAF, 0x90B5, 0x5B5F, 0x9F99, 0x4E07, 0x6BB5, 0x6F15, 0x94B1, 0x6C64,
+                0x5C39, 0x9ECE, 0x6613, 0x5E38, 0x6B66, 0x4E54, 0x8D3A, 0x8D56, 0x9F9A, 0x6587,
+                ]
+
+    unicode_min = 0x4E00
+    unicode_max = 0x9FA5
+
+    result = [chr(randint(unicode_min, unicode_max)) for _ in range(n)]
+    if surname:
+        result[0] = chr(choice(surnames))
+        result = result[:3]
+    return ''.join(result)
+
+
+def random_password(n=10):
+    """随机密码
+    :param n: 密码位数
+    :return:
+    """
+    import random
+    string = r'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*/.[]{};:|\<>?"\''
+    result = [random.choice(string) for _ in range(n)]
+    return ''.join(result)
+
+
 def filename_norm(f: str, s: str = "") -> str:
     """替换不符合文件名的字符
 
