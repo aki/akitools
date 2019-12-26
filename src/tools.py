@@ -98,9 +98,10 @@ def random_password(n=10):
     :param n: 密码位数
     :return:
     """
-    import random
-    string = r'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*/.[]{};:|\<>?"\''
-    result = [random.choice(string) for _ in range(n)]
+    from random import randint
+    unicode_min = 0x0020
+    unicode_max = 0x007E
+    result = [chr(randint(unicode_min, unicode_max)) for _ in range(n)]
     return ''.join(result)
 
 
