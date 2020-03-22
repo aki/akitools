@@ -17,7 +17,7 @@ vk.py
 VK:                         键盘虚拟码
 """
 
-__version__ = '0.2.6'
+__version__ = '0.2.7'
 
 from .tools import *
 from .vk import VK
